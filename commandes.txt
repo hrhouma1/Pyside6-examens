@@ -1,0 +1,34 @@
+# COMMANDES POUR L'EXAMEN PYQT6 - PARTIE 1
+
+# 1. Vérifier la version de Python
+python3.13 --version
+
+# 2. Créer l'environnement virtuel
+python3.13 -m venv env
+
+# 3. Activer l'environnement virtuel (Windows)
+.\env\Scripts\activate
+
+# 4. Installer les dépendances
+pip install pyside6 
+
+# 5. Conversion du fichier .ui (optionnel)
+python convert_ui.py
+
+# 6. Lancer l'application
+python main.py
+
+# COMMANDE COMPLÈTE EN UNE LIGNE (PowerShell) :
+# python3.13 --version; python3.13 -m venv env; .\env\Scripts\activate; pip install pyside6 pyside6-designer; python convert_ui.py; python main.py
+
+# COMMANDE COMPLÈTE EN UNE LIGNE (CMD) :
+# python3.13 --version && python3.13 -m venv env && .\env\Scripts\activate && pip install pyside6 pyside6-designer && python convert_ui.py && python main.py
+
+# ALTERNATIVE : Utiliser le script automatisé
+# python setup.py
+
+# ALTERNATIVE : Utiliser le fichier batch (Windows)
+# run_exam.bat 
+
+## En une seule COMMANDE
+python3.13 --version; python3.13 -m venv env; .\env\Scripts\activate; pip install pyside6 pyside6-designer; python convert_ui.py; python main.py
