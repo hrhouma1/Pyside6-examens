@@ -1,0 +1,352 @@
+# ===============================================
+# COMMANDES POUR L'APPLICATION MESSAGES PyQt6
+# ===============================================
+
+# ===========================
+# 1. INSTALLATION DES DEPENDANCES
+# ===========================
+
+# Vérifier la version de Python 3.13
+python3.13 --version
+
+# Installer les dépendances Python (PyQt6)
+pip install -r requirements.txt
+
+# OU installer manuellement :
+pip install PyQt6>=6.4.0
+pip install mysql-connector-python>=8.0.33
+
+# Vérifier les installations
+pip list | grep PyQt6
+pip list | grep mysql-connector-python
+
+# ===========================
+# 1B. INSTALLATION AVEC PYTHON 3.13 ET PYSIDE6
+# ===========================
+
+# Créer un environnement virtuel avec Python 3.13
+python3.13 -m venv env
+
+# Activer l'environnement virtuel (Windows)
+.\env\Scripts\activate
+
+# Activer l'environnement virtuel (Linux/Mac)
+source env/bin/activate
+
+# Installer PySide6 (alternative à PyQt6)
+pip install pyside6
+
+# Installer le connecteur MySQL
+pip install mysql-connector-python
+
+# Vérifier les installations
+pip list | grep pyside6
+pip list | grep mysql-connector-python
+
+# ===========================
+# 2. CONFIGURATION MYSQL
+# ===========================
+
+# Démarrer MySQL (Windows)
+net start mysql
+
+# Démarrer MySQL (Linux/Mac)
+sudo systemctl start mysql
+# OU
+sudo service mysql start
+
+# Se connecter à MySQL
+mysql -u root -p
+
+# Créer la base de données (optionnel, l'app le fait automatiquement)
+CREATE DATABASE IF NOT EXISTS messages_app CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+# Utiliser la base de données
+USE messages_app;
+
+# Créer la table (optionnel, l'app le fait automatiquement)
+CREATE TABLE IF NOT EXISTS messages (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    texte VARCHAR(500) NOT NULL,
+    date_creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+# Vérifier la table
+DESCRIBE messages;
+
+# Voir les données
+SELECT * FROM messages ORDER BY date_creation DESC;
+
+# Quitter MySQL
+EXIT;
+
+# ===========================
+# 3. CONFIGURATION DE L'APPLICATION
+# ===========================
+
+# Modifier les paramètres de connexion dans main.py (ligne ~25)
+# Remplacer :
+#   'password': '',
+# Par :
+#   'password': 'votre_mot_de_passe_mysql',
+
+# ===========================
+# 4. LANCEMENT DE L'APPLICATION
+# ===========================
+
+# Lancer l'application (PyQt6)
+python main.py
+
+# OU sur certains systèmes
+python3 main.py
+
+# ===========================
+# 4B. LANCEMENT AVEC PYSIDE6 ET FICHIERS SPÉCIFIQUES
+# ===========================
+
+# Tester la connexion à la base de données
+python connect_database.py
+
+# Ajouter des données de test dans MySQL
+python add_mysql_test_data.py
+
+# Lancer l'application principale
+python main.py
+
+# ===========================
+# 4C. CONVERSION DE FICHIERS .UI AVEC PYSIDE6
+# ===========================
+
+# Convertir un fichier .ui en .py avec PySide6
+pyside6-uic.exe interface.ui -o interface_ui.py
+
+# OU sur Linux/Mac
+pyside6-uic interface.ui -o interface_ui.py
+
+# Vérifier que le fichier a été généré
+dir interface_ui.py (Windows)
+ls -la interface_ui.py (Linux/Mac)
+
+# ===========================
+# 5. UTILISATION DE L'APPLICATION
+# ===========================
+
+# 1. Saisir un message dans le champ de texte
+# 2. Cliquer sur "Envoyer" ou appuyer sur Entrée
+# 3. Le message apparaît avec "Message saisi : "
+# 4. Le message est automatiquement sauvegardé en base
+# 5. Cliquer sur "Rafraîchir les messages" pour voir tous les messages
+
+# ===========================
+# 6. COMMANDES DE VERIFICATION
+# ===========================
+
+# Vérifier que Python est installé
+python --version
+
+# Vérifier que pip est installé
+pip --version
+
+# Vérifier que MySQL est démarré (Windows)
+sc query mysql
+
+# Vérifier que MySQL est démarré (Linux)
+sudo systemctl status mysql
+
+# Tester la connexion MySQL
+mysql -u root -p -e "SELECT VERSION();"
+
+# ===========================
+# 7. MODIFICATION DE L'INTERFACE
+# ===========================
+
+# Installer Qt Designer (optionnel)
+pip install PyQt6-tools
+
+# Ouvrir Qt Designer
+designer interface.ui
+
+# OU utiliser Qt Creator (téléchargeable séparément)
+
+# ===========================
+# 8. DÉPANNAGE
+# ===========================
+
+# Si erreur "ModuleNotFoundError: No module named 'PyQt6'"
+pip install PyQt6
+
+# Si erreur "ModuleNotFoundError: No module named 'PySide6'"
+pip install pyside6
+
+# Si erreur "No module named 'mysql.connector'"
+pip install mysql-connector-python
+
+# Si erreur "Access denied for user 'root'@'localhost'"
+# Modifier le mot de passe dans main.py ou créer un nouvel utilisateur MySQL
+
+# Si erreur "Can't connect to MySQL server"
+# Vérifier que MySQL est démarré et écoute sur le port 3306
+
+# Si erreur "FileNotFoundError: [Errno 2] No such file or directory: 'interface.ui'"
+# Vérifier que le fichier interface.ui est dans le même dossier que main.py
+
+# Si erreur "pyside6-uic.exe is not recognized"
+# Vérifier que PySide6 est installé et que l'environnement virtuel est activé
+pip install pyside6
+
+# Si erreur avec connect_database.py
+# Vérifier que MySQL est démarré et les paramètres de connexion
+
+# Si erreur avec add_mysql_test_data.py
+# S'assurer que la base de données existe et que connect_database.py fonctionne
+
+# ===========================
+# 9. COMMANDES AVANCÉES
+# ===========================
+
+# Créer un utilisateur MySQL spécifique pour l'application
+mysql -u root -p
+CREATE USER 'messages_user'@'localhost' IDENTIFIED BY 'password123';
+GRANT ALL PRIVILEGES ON messages_app.* TO 'messages_user'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+
+# Modifier main.py pour utiliser ce nouvel utilisateur :
+# 'user': 'messages_user',
+# 'password': 'password123',
+
+# Sauvegarder la base de données
+mysqldump -u root -p messages_app > backup_messages.sql
+
+# Restaurer la base de données
+mysql -u root -p messages_app < backup_messages.sql
+
+# ===========================
+# 10. COMMANDES DE DÉVELOPPEMENT
+# ===========================
+
+# Créer un environnement virtuel
+python -m venv venv
+
+# Activer l'environnement virtuel (Windows)
+venv\Scripts\activate
+
+# Activer l'environnement virtuel (Linux/Mac)
+source venv/bin/activate
+
+# Installer les dépendances dans l'environnement virtuel
+pip install -r requirements.txt
+
+# Désactiver l'environnement virtuel
+deactivate
+
+# ===========================
+# 11. PACKAGING DE L'APPLICATION
+# ===========================
+
+# Installer PyInstaller
+pip install pyinstaller
+
+# Créer un exécutable
+pyinstaller --onefile --windowed main.py
+
+# L'exécutable sera dans le dossier dist/
+
+# ===========================
+# 12. COMMANDES UTILES
+# ===========================
+
+# Voir la structure du projet
+dir /b (Windows)
+ls -la (Linux/Mac)
+
+# Compter les lignes de code
+find . -name "*.py" -exec wc -l {} + (Linux/Mac)
+
+# Voir les processus Python en cours
+tasklist | find "python" (Windows)
+ps aux | grep python (Linux/Mac)
+
+# ===========================
+# 13. COMMANDES DE MAINTENANCE
+# ===========================
+
+# Vider la table messages
+mysql -u root -p -e "USE messages_app; DELETE FROM messages;"
+
+# Réinitialiser l'auto-increment
+mysql -u root -p -e "USE messages_app; ALTER TABLE messages AUTO_INCREMENT = 1;"
+
+# Voir la taille de la base de données
+mysql -u root -p -e "SELECT table_schema AS 'Database', ROUND(SUM(data_length + index_length) / 1024 / 1024, 2) AS 'Size (MB)' FROM information_schema.tables WHERE table_schema = 'messages_app';"
+
+# ===========================
+# 14. WORKFLOW COMPLET PYTHON 3.13 + PYSIDE6
+# ===========================
+
+# Étape 1 : Vérifier Python 3.13
+python3.13 --version
+
+# Étape 2 : Créer l'environnement virtuel
+python3.13 -m venv env
+
+# Étape 3 : Activer l'environnement virtuel
+.\env\Scripts\activate
+
+# Étape 4 : Installer les dépendances
+pip install pyside6
+pip install mysql-connector-python
+
+# Étape 5 : Démarrer MySQL
+net start mysql
+
+# Étape 6 : Tester la connexion à la base de données
+python connect_database.py
+
+# Étape 7 : Ajouter des données de test
+python add_mysql_test_data.py
+
+# Étape 8 : Convertir le fichier .ui en .py (si nécessaire)
+pyside6-uic.exe interface.ui -o interface_ui.py
+
+# Étape 9 : Lancer l'application
+python main.py
+
+# ===========================
+# 15. COMMANDES RAPIDES - COPIER/COLLER
+# ===========================
+
+# Bloc complet pour un démarrage rapide (Windows + Python 3.13)
+python3.13 --version
+python3.13 -m venv env
+.\env\Scripts\activate
+pip install pyside6
+pip install mysql-connector-python
+net start mysql
+python connect_database.py
+python add_mysql_test_data.py
+python main.py
+
+# Bloc complet pour Linux/Mac + Python 3.13
+python3.13 --version
+python3.13 -m venv env
+source env/bin/activate
+pip install pyside6
+pip install mysql-connector-python
+sudo systemctl start mysql
+python connect_database.py
+python add_mysql_test_data.py
+python main.py
+
+# ===========================
+# NOTES IMPORTANTES
+# ===========================
+
+# - Assurez-vous que MySQL est démarré avant de lancer l'application
+# - Modifiez le mot de passe dans main.py selon votre configuration
+# - Le fichier interface.ui doit être dans le même dossier que main.py
+# - L'application crée automatiquement la base et la table si elles n'existent pas
+# - Les messages sont sauvegardés avec un timestamp automatique
+# - Pour PySide6, remplacez PyQt6 par PySide6 dans les imports si nécessaire
+# - Les fichiers connect_database.py et add_mysql_test_data.py doivent être dans le même dossier
+# - Utilisez pyside6-uic au lieu de pyuic6 pour convertir les fichiers .ui 
