@@ -1,3 +1,5 @@
+# !!!!!!!!! VOIR COMMANDES.TXT
+
 # Examen PyQt6 - Partie 1 : Signaux, Slots et Affichage de Messages
 
 ## Description
