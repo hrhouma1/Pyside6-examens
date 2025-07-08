@@ -1,4 +1,17 @@
-# !!!!!!!!! VOIR COMMANDES.TXT
+# !!!!!!!!! VOIR COMMANDES.TXT et COMMANDES2.TXT
+
+### Recommendations:
+
+- création d'environnement virtuel
+- installer pyside6
+- lancer l'interface graphique et développer le UI
+- convertir le ui en .py
+- et finaliser l'application
+
+
+
+
+
 
 # Examen PyQt6 - Partie 1 : Signaux, Slots et Affichage de Messages
 
