@@ -1,7 +1,34 @@
 <<<<<<< HEAD
-# Application Messages - Signaux et Slots (PyQt6)
+# Application Messages - Signaux et Slots (PyQt6/PySide6)
 
-Une application graphique développée avec PyQt6 qui illustre les concepts de signaux et slots, avec intégration d'une base de données MySQL.
+Une application graphique développée avec PyQt6/PySide6 qui illustre les concepts de signaux et slots, avec intégration d'une base de données MySQL.
+
+## 📚 Guides pour les étudiants
+
+### 🎯 Guides Git
+- **[📖 Guide Git Exhaustif](GUIDE_GIT_ETUDIANTS.md)** - Guide complet pour récupérer les branches et commits
+- **[⚡ Guide de Démarrage Rapide](GUIDE_DEMARRAGE_RAPIDE.md)** - Pour récupérer rapidement une branche
+
+### 🌿 Branches disponibles
+- **`examen1`** - Version basique avec interface simple
+- **`examen2`** - Version complète avec base de données MySQL
+
+### 💡 Démarrage rapide
+```bash
+# Récupérer l'examen 1
+git clone -b examen1 https://github.com/hrhouma1/Pyside6-examens.git examen1-project
+
+# Récupérer l'examen 2
+git clone -b examen2 https://github.com/hrhouma1/Pyside6-examens.git examen2-project
+```
+
+### 🔄 PyQt6 vs PySide6
+Ce projet supporte les deux frameworks :
+- **PyQt6** - Version originale avec `uic.loadUi()`
+- **PySide6** - Version alternative avec `QUiLoader()`
+- **Fichiers disponibles** :
+  - `main.py` - Version PySide6 avec fichier .ui
+  - `main_simple.py` - Version PySide6 100% Python (recommandé)
 
 ## Fonctionnalités
 
