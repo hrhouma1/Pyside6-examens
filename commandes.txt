@@ -112,6 +112,7 @@ python add_mysql_test_data.py
 
 # Lancer l'application principale
 python main.py
+python main_simple.py
 
 # ===========================
 # 4C. CONVERSION DE FICHIERS .UI AVEC PYSIDE6

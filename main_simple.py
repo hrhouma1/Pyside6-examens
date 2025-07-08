@@ -3,9 +3,11 @@
 
 import sys
 import mysql.connector
-from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox
-from PySide6.QtUiTools import QUiLoader
-from PySide6.QtCore import QFile, QIODevice
+from PySide6.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout, 
+                               QHBoxLayout, QLineEdit, QPushButton, QLabel, 
+                               QMessageBox, QTextEdit)
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QFont
 
 
 class MessageApp(QMainWindow):
@@ -17,24 +19,73 @@ class MessageApp(QMainWindow):
         self.connect_signals()
         
     def init_ui(self):
-        """Charge l'interface depuis le fichier .ui"""
-        from PySide6.QtWidgets import QLineEdit, QPushButton, QLabel, QTextEdit
+        """Initialise l'interface utilisateur"""
+        self.setWindowTitle("Application Messages - Signaux et Slots")
+        self.setGeometry(100, 100, 600, 450)
         
-        loader = QUiLoader()
-        ui_file = QFile("interface.ui")
-        ui_file.open(QFile.ReadOnly)
-        ui_widget = loader.load(ui_file, self)
-        ui_file.close()
+        # Widget central
+        central_widget = QWidget()
+        self.setCentralWidget(central_widget)
         
-        # Définir le widget central
-        self.setCentralWidget(ui_widget)
+        # Layout principal
+        main_layout = QVBoxLayout()
+        central_widget.setLayout(main_layout)
         
-        # Accéder aux widgets par leur nom et type
-        self.messageInput = ui_widget.findChild(QLineEdit, 'messageInput')
-        self.sendButton = ui_widget.findChild(QPushButton, 'sendButton')
-        self.messageDisplay = ui_widget.findChild(QLabel, 'messageDisplay')
-        self.dbMessagesDisplay = ui_widget.findChild(QTextEdit, 'dbMessagesDisplay')
-        self.refreshButton = ui_widget.findChild(QPushButton, 'refreshButton')
+        # Titre
+        title_label = QLabel("Gestionnaire de Messages")
+        title_label.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        title_font = QFont()
+        title_font.setPointSize(16)
+        title_font.setBold(True)
+        title_label.setFont(title_font)
+        main_layout.addWidget(title_label)
+        
+        # Zone de saisie
+        input_layout = QHBoxLayout()
+        
+        # Champ de saisie
+        self.messageInput = QLineEdit()
+        self.messageInput.setPlaceholderText("Saisissez votre message ici...")
+        self.messageInput.setMinimumHeight(30)
+        input_layout.addWidget(self.messageInput)
+        
+        # Bouton d'envoi
+        self.sendButton = QPushButton("Envoyer")
+        self.sendButton.setMinimumHeight(30)
+        self.sendButton.setMinimumWidth(100)
+        input_layout.addWidget(self.sendButton)
+        
+        main_layout.addLayout(input_layout)
+        
+        # Zone d'affichage du message
+        self.messageDisplay = QLabel("Aucun message saisi")
+        self.messageDisplay.setAlignment(Qt.AlignmentFlag.AlignCenter)
+        self.messageDisplay.setStyleSheet("""
+            QLabel {
+                background-color: #f0f0f0;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                padding: 10px;
+                font-size: 12px;
+            }
+        """)
+        self.messageDisplay.setMinimumHeight(60)
+        main_layout.addWidget(self.messageDisplay)
+        
+        # Zone d'affichage des messages de la base de données
+        db_label = QLabel("Messages de la base de données :")
+        db_label.setFont(QFont("Arial", 10, QFont.Weight.Bold))
+        main_layout.addWidget(db_label)
+        
+        self.dbMessagesDisplay = QTextEdit()
+        self.dbMessagesDisplay.setReadOnly(True)
+        self.dbMessagesDisplay.setMinimumHeight(150)
+        main_layout.addWidget(self.dbMessagesDisplay)
+        
+        # Bouton pour rafraîchir les messages
+        self.refreshButton = QPushButton("Rafraîchir les messages")
+        self.refreshButton.setMinimumHeight(30)
+        main_layout.addWidget(self.refreshButton)
         
     def connect_signals(self):
         """Connecte les signaux aux slots"""
