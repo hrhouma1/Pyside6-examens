@@ -1,4 +1,5 @@
-<<<<<<< HEAD
+# !!!! VOIR COMMANDES.TXT
+
 # Application Messages - Signaux et Slots (PyQt6/PySide6)
 
 Une application graphique développée avec PyQt6/PySide6 qui illustre les concepts de signaux et slots, avec intégration d'une base de données MySQL.
